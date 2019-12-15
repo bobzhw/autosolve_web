@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.9:3306/autosolve_test?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: woaizxl
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+logging:
+  level:
+    root: warn
+    com.lrm: info
+  file: log/blog-pro.log
+
+
+
+
+
+

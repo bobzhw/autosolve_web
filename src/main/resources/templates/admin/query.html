@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试平台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+</head>
+<body>
+
+  <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+    <div class="ui container">
+      <div class="ui inverted secondary stackable menu">
+        <h2 class="ui teal header item">测试平台</h2>
+        <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
+        <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
+        <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
+        <a href="#" th:href="@{/admin/test}" class="m-item item m-mobile-hide"><i class=" clone icon"></i>套题测试</a>
+        <a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>更多功能</a>
+        <div class="right m-item m-mobile-hide menu">
+          <div class="ui dropdown  item">
+            <div class="text" th:text="${username}">
+            </div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <br>
+  <br>
+
+  <div  class="m-container-small">
+    <div class="ui container">
+      <form name="querySearch" class="ui large form" method="post" action="#" th:action="@{/admin/querySearch}">
+        <div class="ui secondary segment form">
+          <div class="inline fields">
+            <div class="field">
+              <input type="text" name="area" placeholder="省份,例如北京">
+            </div>
+            <div class="field">
+              <input type="text" name="year" placeholder="年份，例如2017">
+            </div>
+            <div class="field">
+              <input type="text" name="wl" placeholder="请输入W/L,W是文科，L是理科">
+            </div>
+            <div class="field">
+              <button type="button" onclick="document.forms['querySearch'].submit()" class="ui mini teal basic submit button">搜索</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <script>
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+      on : 'hover'
+    });
+
+  </script>
+</body>
+</html>
