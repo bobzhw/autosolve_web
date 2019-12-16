@@ -33,19 +33,45 @@
   </nav>
 
 
-  <div  class="m-container-small m-padded-tb-big">
+  <br>
+  <br>
+
+  <div  class="m-container-small">
     <div class="ui container">
-      <div class="ui success large  message">
-        <h3>Hi,</h3>
-        <p th:text="${username}"></p>
-        <p>，欢迎登录！</p>
-      </div>
+      <form name="testnlp" class="ui large form" method="post" action="#" th:action="@{/admin/testnlp}">
+        <h3>套题范围，输入类似：北京-2017-W#陕西-2015-L(套题内部用-分割，套题间用#分割)</h3>
+        <div class="ui secondary segment form">
+          <div class="inline fields">
+            <div class="field">
+              <input type="text" style="width:640px;" name="testString" placeholder="输入测试套题 ">
+            </div>
+            <div class="field">
+              <button type="button" onclick="document.forms['testnlp'].submit()" class="ui mini teal basic submit button">nlp</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-
-  <br>
-  <br>
-
+<br>
+<br>
+  <div  class="m-container-small">
+    <div class="ui container">
+      <form name="testsolve" class="ui large form" method="post" action="#" th:action="@{/admin/testsolve}">
+        <h3>套题范围，输入类似：北京-2017-W#陕西-2015-L(套题内部用-分割，套题间用#分割)</h3>
+        <div class="ui secondary segment form">
+          <div class="inline fields">
+            <div class="field">
+              <input type="text" style="width:640px;" name="testString" placeholder="输入测试套题 ">
+            </div>
+            <div class="field">
+              <button type="button" onclick="document.forms['testsolve'].submit()" class="ui mini teal basic submit button">solve</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
   <script>

@@ -66,7 +66,7 @@
   <div  class="m-container-small">
     <div class="ui container">
       <div class="ui top attached segment">
-        <div class="ui middle aligned two column grid">
+        <div class="ui middle aligned three column grid">
           <div class="column">
             <form name="nlp" class="ui large form" method="post" action="#" th:action="@{/admin/nlp}">
               <input  id="nlpquestionId" name="nlpquestionId" type="hidden" th:value="${question.id}" />
@@ -74,6 +74,14 @@
               NLP
             </button>
           </form>
+          </div>
+          <div class="center aligned column">
+            <form name="entity" class="ui large form" method="post" action="#" th:action="@{/admin/entity}">
+              <input  id="entityid" name="entityid" type="hidden" th:value="${question.id}" />
+              <button type="button" onclick="document.forms['entity'].submit()" class="ui mini teal basic submit button">
+                二期实体结果
+              </button>
+            </form>
           </div>
           <div class="right aligned column">
           <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
@@ -83,10 +91,14 @@
             </button>
           </form>
           </div>
+
         </div>
       </div>
     </div>
   </div>
+  <br>
+  <br>
+
 
 
 
