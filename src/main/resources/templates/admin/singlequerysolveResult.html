@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>测试平台</title>
+  <title>SOLVE结果</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
   <link rel="stylesheet" href="../../static/css/me.css">
 </head>
@@ -12,7 +12,7 @@
   <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
     <div class="ui container">
       <div class="ui inverted secondary stackable menu">
-        <h2 class="ui teal header item">测试平台</h2>
+        <h2 class="ui teal header item">SOLVE结果</h2>
         <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
         <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
         <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
@@ -34,22 +34,20 @@
   </nav>
   <br>
   <br>
-
-
-  <div  class="m-container-small">
-    <div class="ui container">
-      <!--header-->
-      <div class="ui top attached segment">
-        <div class="ui middle aligned two column grid">
-          <div class="column">
-            <h3 class="ui teal header">搜索结果</h3>
-          </div>
-          <div class="right aligned column">
-            <p class="ui orange header m-inline-block m-text-thin" th:text="${question.id}"></p>
-          </div>
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+    <!--header-->
+    <div class="ui top attached segment">
+      <div class="ui middle aligned two column grid">
+        <div class="column">
+          <h3 class="ui teal header">SOLVE结果</h3>
         </div>
+        <div class="right aligned column">
+          <p class="ui orange header m-inline-block m-text-thin" th:text="${question.id}"></p>
+        </div>
+      </div>
+      </div>
     </div>
-  </div>
   </div>
   <br>
   <br>
@@ -63,35 +61,14 @@
   </div>
   <br>
   <br>
-  <div  class="m-container-small">
-    <div class="ui container">
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
       <div class="ui top attached segment">
-        <div class="ui middle aligned two column grid">
-          <div class="column">
-            <form name="nlp" class="ui large form" method="post" action="#" th:action="@{/admin/nlp}">
-              <input  id="nlpquestionId" name="nlpquestionId" type="hidden" th:value="${question.id}" />
-              <button type="button" onclick="document.forms['nlp'].submit()" class="ui mini teal basic submit button">
-              NLP
-            </button>
-          </form>
-          </div>
-          <div class="right aligned column">
-          <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
-            <input  id="solvequestionId" name="solvequestionId" type="hidden" th:value="${question.id}" />
-            <button type="button" onclick="document.forms['solve'].submit()" class="ui mini teal basic submit button">
-              SOLVE
-            </button>
-          </form>
-          </div>
-        </div>
+          <h3 style="white-space: pre-line" th:text="${result}">
+          </h3>
       </div>
     </div>
   </div>
-
-
-
-
-
 
 
 

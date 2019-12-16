@@ -61,7 +61,7 @@ public class LoginController {
             model.addAttribute("username",user.getUsername());
             return "admin/index";
         }
-        return "admin/login";
+        return "index";
     }
 
 }

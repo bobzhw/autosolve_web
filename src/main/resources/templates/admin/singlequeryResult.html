@@ -23,6 +23,7 @@
             <div class="text" th:text="${username}">
             </div>
             <i class="dropdown icon"></i>
+
             <div class="menu">
               <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
             </div>
@@ -31,7 +32,8 @@
       </div>
     </div>
   </nav>
-
+  <br>
+  <br>
 
 
   <div  class="m-container-small">
@@ -46,18 +48,53 @@
             <p class="ui orange header m-inline-block m-text-thin" th:text="${question.id}"></p>
           </div>
         </div>
+    </div>
+  </div>
+  </div>
+  <br>
+  <br>
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+      <div class="ui top attached segment">
+        <h3 th:text="${question.stem}"></h3>
+        <h3 th:text="${question.subStem}"></h3>
       </div>
     </div>
-    <br>
-    <br>
+  </div>
+  <br>
+  <br>
+  <div  class="m-container-small">
     <div class="ui container">
-      <div  class="m-container-small m-padded-tb-big">
-        <div class="ui top attached segment">
-          <h3 th:text="${question.stem}}"></h3>
-          <h3 th:text="${question.subStem}}"></h3>
+      <div class="ui top attached segment">
+        <div class="ui middle aligned two column grid">
+          <div class="column">
+            <form name="nlp" class="ui large form" method="post" action="#" th:action="@{/admin/nlp}">
+              <input  id="nlpquestionId" name="nlpquestionId" type="hidden" th:value="${question.id}" />
+              <button type="button" onclick="document.forms['nlp'].submit()" class="ui mini teal basic submit button">
+              NLP
+            </button>
+          </form>
+          </div>
+          <div class="right aligned column">
+          <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
+            <input  id="solvequestionId" name="solvequestionId" type="hidden" th:value="${question.id}" />
+            <button type="button" onclick="document.forms['solve'].submit()" class="ui mini teal basic submit button">
+              SOLVE
+            </button>
+          </form>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+
+
+
+
+
+
+
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
   <script>
