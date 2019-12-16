@@ -23,6 +23,15 @@ public class Request {
     private String stem;
     private String subStem;
     private String solveResult;
+    private int over;
+
+    public int getOver() {
+        return over;
+    }
+
+    public void setOver(int over) {
+        this.over = over;
+    }
 
     public int getId() {
         return id;
@@ -85,5 +94,11 @@ public class Request {
     }
 
     public Request() {
+    }
+    public Request(String questionId,int request,String solveResult,int over){
+        this.questionId = questionId;
+        this.request = request;
+        this.solveResult = solveResult;
+        this.over = over;
     }
 }

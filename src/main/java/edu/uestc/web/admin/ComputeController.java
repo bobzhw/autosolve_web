@@ -1,5 +1,6 @@
 package edu.uestc.web.admin;
 
+import com.alibaba.fastjson.JSONObject;
 import edu.uestc.Utils.DataBase;
 import edu.uestc.Utils.KafkaProducerr;
 import edu.uestc.po.Question;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,6 +35,7 @@ public class ComputeController {
     @Autowired
     private RequestService requestService;
 
+    private static DataBase dataBase = DataBase.getInstance();
     private static KafkaProducerr kafkaProducerr = new KafkaProducerr();
     @Autowired
     private QuestionService questionService;
@@ -121,4 +126,100 @@ public class ComputeController {
         }
         return "admin/login";
     }
+
+    @RequestMapping(value="testnlp")
+    public String testnlp(@RequestParam String testString,HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            String[] groups = testString.split("#");
+            List<Question> questionList = new ArrayList<>();
+            for(String str : groups){
+                String[] group = str.split("-");
+                if(group.length==3){
+                    questionList.addAll(questionService.queryTaoti(group[0],group[1],group[2]));
+                    for(Question question : questionList){
+                        kafkaProducerr.produce(question.getId(),"nlp");
+                    }
+                }
+            }
+            List<Request> requestList = new ArrayList<>();
+            try {
+                for(Question question : questionList){
+                    Request r = null;
+                    while(r==null){
+                        r = dataBase.queryRequest(question.getId(),1,1);
+                    }
+                    requestService.deleteRequest(question.getId(),1,1);
+                    requestList.add(r);
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+            model.addAttribute("resultlist",requestList);
+            return "admin/testResult";
+    }
+        return "admin/login";
+    }
+
+
+    @RequestMapping(value="testsolve")
+    public String testsolve(@RequestParam String testString,HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            String[] groups = testString.split("#");
+            List<Question> questionList = new ArrayList<>();
+            for(String str : groups){
+                String[] group = str.split("-");
+                if(group.length==3){
+                    questionList.addAll(questionService.queryTaoti(group[0],group[1],group[2]));
+                    for(Question question : questionList){
+                        kafkaProducerr.produce(question.getId(),"solve");
+                    }
+                }
+            }
+            List<Request> requestList = new ArrayList<>();
+            try {
+                for(Question question : questionList){
+                    Request r = null;
+                    while(r==null){
+                        r = dataBase.queryRequest(question.getId(),2,1);
+                    }
+                    requestService.deleteRequest(question.getId(),2,1);
+                    requestList.add(r);
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+            model.addAttribute("resultlist",requestList);
+            return "admin/testResult";
+        }
+        return "admin/login";
+    }
+
+    @RequestMapping(value="entity")
+    public String entity(@RequestParam String questionId,HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            kafkaProducerr.produce(questionId,"entity");
+            try{
+                Request r = null;
+                while(r==null){
+                    r = dataBase.queryRequest(questionId,3,1);
+                }
+                requestService.deleteRequest(questionId,3,1);
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            model.addAttribute("entityResult");
+            return "admin/entity";
+        }
+        return "admin/login";
+    }
+
 }
