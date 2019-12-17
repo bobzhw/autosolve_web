@@ -1,7 +1,4 @@
 aqua 浅绿色
-aquamarine 碧绿色
-azure 天蓝色
-blanchedalmond 白杏色
 blue 蓝色
 blueviolet 紫罗兰色
 brown 棕色
@@ -11,12 +8,8 @@ camel 驼色
 chocolate 巧克力色
 cobalt blue 艳蓝色
 coral 珊瑚色
-cornflowerblue 菊蓝色
-cornsilk 米绸色
 crimson 暗深红色
-cyan 青色
 darkblue 暗蓝色
-darkcyan 暗青色
 darkgoldenrod 暗金黄色
 darkgray 暗灰色
 darkgreen 暗绿色
@@ -26,7 +19,7 @@ darkolivegreen 暗橄榄绿色
 darkorange 暗桔色
 darkorchid 暗紫色
 darkred 暗红色
-darksalmon 暗肉色
+darksalmon
 darkseagreen 暗海蓝色
 darkslateblue 暗灰蓝色
 darkslategray 墨绿色
@@ -38,11 +31,9 @@ dimgray 暗灰色
 dodgerblue 闪蓝色
 emerald green 艳绿色
 firebrick 火砖色
-floralwhite 花白色
 forestgreen 森林绿
 fuchsia 紫红色
 gainsboro 淡灰色
-ghostwhite 幽灵白
 gold 金黄色
 goldenrod 金麒麟色
 gray 灰色
@@ -58,20 +49,6 @@ lavender 淡紫色
 lavenderblush 淡紫红
 lawngreen 草绿色
 lemonchiffon 柠檬绸色
-lightblue 浅蓝色
-lightcoral 浅珊瑚色
-lightcyan 浅青色
-lightgoldenrodyellow 浅金黄色
-lightgreen 浅绿色
-lightgrey 浅灰色
-lightpink 浅粉色
-lightsalmon 浅肉色
-lightseagreen 浅海蓝色
-lightskyblue 浅天蓝色
-lightslategray 浅蓝灰色
-lightsteelblue 浅钢蓝色
-lightyellow 浅黄色
-lilac 浅紫色
 lime 酸橙色
 limegreen 橙绿色
 linen 亚麻色

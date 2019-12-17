@@ -204,6 +204,7 @@ public class ComputeController {
     public String entity(@RequestParam String entityid,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         String res = "";
+        String options = "";
         if(user!=null){
             Question question = questionService.queryByQuestionId(entityid);
             model.addAttribute("question",question);
@@ -216,6 +217,9 @@ public class ComputeController {
                 }
                 requestService.deleteRequest(entityid,3,1);
                 NLPResult nlpResult = JSONObject.parseObject(r.getSolveResult(),NLPResult.class);
+                for(String s : nlpResult.options){
+                    options= options+s+"  ";
+                }
                 entityColor = new EntityColor(nlpResult);
                 res = nlpResult.toString();
             }
@@ -224,6 +228,7 @@ public class ComputeController {
             }
             model.addAttribute("textColors",entityColor.getTextColors());
             model.addAttribute("res",res);
+            model.addAttribute("options",options);
             return "admin/entity";
         }
         return "admin/login";

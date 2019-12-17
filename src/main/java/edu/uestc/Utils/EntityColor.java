@@ -30,7 +30,7 @@ public class EntityColor {
                 colors.put(type,colorEntity.getColor());
             }
         }
-        String[] texts = nlpResult.commonText.split("\\$");
+        String[] texts = nlpResult.fakeText.split("\\$");
         for(String t : texts){
             boolean flag = false;
             for(NLPResult.Entity e : nlpResult.entities){
@@ -39,7 +39,6 @@ public class EntityColor {
                     flag = true;
                     break;
                 }
-
             }
             if(!flag){
                 textColors.add(new TextColor(t,"black"));
