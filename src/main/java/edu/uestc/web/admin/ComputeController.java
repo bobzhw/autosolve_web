@@ -1,14 +1,16 @@
 package edu.uestc.web.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import edu.uestc.Utils.ColorEntity;
 import edu.uestc.Utils.DataBase;
+import edu.uestc.Utils.EntityColor;
 import edu.uestc.Utils.KafkaProducerr;
+import edu.uestc.po.NLPResult;
 import edu.uestc.po.Question;
 import edu.uestc.po.Request;
 import edu.uestc.po.User;
 import edu.uestc.service.QuestionService;
 import edu.uestc.service.RequestService;
-import org.hibernate.boot.model.relational.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 
@@ -201,22 +201,29 @@ public class ComputeController {
     }
 
     @RequestMapping(value="entity")
-    public String entity(@RequestParam String questionId,HttpSession session,Model model){
+    public String entity(@RequestParam String entityid,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
+        String res = "";
         if(user!=null){
-            kafkaProducerr.produce(questionId,"entity");
+            Question question = questionService.queryByQuestionId(entityid);
+            model.addAttribute("question",question);
+            kafkaProducerr.produce(entityid,"entity");
+            EntityColor entityColor = new EntityColor();
             try{
                 Request r = null;
                 while(r==null){
-                    r = dataBase.queryRequest(questionId,3,1);
+                    r = dataBase.queryRequest(entityid,3,1);
                 }
-                requestService.deleteRequest(questionId,3,1);
-
+                requestService.deleteRequest(entityid,3,1);
+                NLPResult nlpResult = JSONObject.parseObject(r.getSolveResult(),NLPResult.class);
+                entityColor = new EntityColor(nlpResult);
+                res = nlpResult.toString();
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-            model.addAttribute("entityResult");
+            model.addAttribute("textColors",entityColor.getTextColors());
+            model.addAttribute("res",res);
             return "admin/entity";
         }
         return "admin/login";

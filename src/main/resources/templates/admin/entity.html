@@ -42,7 +42,7 @@
       <div class="ui top attached segment">
         <div class="ui middle aligned two column grid">
           <div class="column">
-            <h3 class="ui teal header">搜索结果</h3>
+            <h3 class="ui teal header">entity结果</h3>
           </div>
           <div class="right aligned column">
             <p class="ui orange header m-inline-block m-text-thin" th:text="${question.id}"></p>
@@ -56,43 +56,13 @@
   <div class="ui container">
     <div  class="m-container-small m-padded-tb-big">
       <div class="ui top attached segment">
-        <h3 th:text="${question.stem}"></h3>
-        <h3 th:text="${question.subStem}"></h3>
-      </div>
-    </div>
-  </div>
-  <br>
-  <br>
-  <div  class="m-container-small">
-    <div class="ui container">
-      <div class="ui top attached segment">
-        <div class="ui middle aligned three column grid">
-          <div class="column">
-            <form name="nlp" class="ui large form" method="post" action="#" th:action="@{/admin/nlp}">
-              <input  id="nlpquestionId" name="nlpquestionId" type="hidden" th:value="${question.id}" />
-              <button type="button" onclick="document.forms['nlp'].submit()" class="ui mini teal basic submit button">
-              NLP
-            </button>
-          </form>
-          </div>
-          <div class="center aligned column">
-            <form name="entity" class="ui large form" method="post" action="#" th:action="@{/admin/entity}">
-              <input  id="entityid" name="entityid" type="hidden" th:value="${question.id}" />
-              <button type="button" onclick="document.forms['entity'].submit()" class="ui mini teal basic submit button">
-                二期实体结果
-              </button>
-            </form>
-          </div>
-          <div class="right aligned column">
-          <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
-            <input  id="solvequestionId" name="solvequestionId" type="hidden" th:value="${question.id}" />
-            <button type="button" onclick="document.forms['solve'].submit()" class="ui mini teal basic submit button">
-              SOLVE
-            </button>
-          </form>
-          </div>
-
-        </div>
+        <tr th:each="textColor : ${textColors}">
+            <span th:style="'color:'+${textColor.color}" th:text="${textColor.text}"></span>
+        </tr>
+        <br>
+        <br>
+        <br>
+        <p th:text="${res}"></p>
       </div>
     </div>
   </div>
