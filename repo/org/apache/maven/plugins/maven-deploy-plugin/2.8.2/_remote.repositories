@@ -1,0 +1,4 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Sun Dec 15 22:59:06 CST 2019
+maven-deploy-plugin-2.8.2.pom>nexus-pentaho=
+maven-deploy-plugin-2.8.2.jar>nexus-pentaho=

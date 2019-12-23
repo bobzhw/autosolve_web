@@ -11,4 +11,7 @@ public interface QuestionService {
     Question queryByQuestionId(String id);
 
     List<Question> queryTaoti(String area,String year,String wl);
+
+
+    List<Question> keySearch(String key);
 }

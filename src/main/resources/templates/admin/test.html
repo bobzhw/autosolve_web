@@ -17,7 +17,7 @@
         <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
         <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
         <a href="#" th:href="@{/admin/test}" class="m-item item m-mobile-hide"><i class=" clone icon"></i>套题测试</a>
-        <a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>更多功能</a>
+        <a href="#" th:href="@{/admin/rule}" class="m-item item m-mobile-hide"><i class=" info icon"></i>定理制定</a>
         <div class="right m-item m-mobile-hide menu">
           <div class="ui dropdown  item">
             <div class="text" th:text="${username}">
@@ -72,6 +72,26 @@
       </form>
     </div>
   </div>
+  <br>
+  <br>
+  <div  class="m-container-small">
+    <div class="ui container">
+      <form name="testnlp2" class="ui large form" method="post" action="#" th:action="@{/admin/testnlp2}">
+        <h3>套题范围，输入类似：北京-2017-W#陕西-2015-L(套题内部用-分割，套题间用#分割)</h3>
+        <div class="ui secondary segment form">
+          <div class="inline fields">
+            <div class="field">
+              <input type="text" style="width:640px;" name="testString" placeholder="输入测试套题 ">
+            </div>
+            <div class="field">
+              <button type="button" onclick="document.forms['testnlp2'].submit()" class="ui mini teal basic submit button">二期实体结果</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
   <script>

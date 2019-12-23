@@ -52,7 +52,15 @@ public class QueryController {
         }
         return "admin/login";
     }
-
+    @GetMapping("/rule")
+    public String rule(Model model,HttpSession session){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            model.addAttribute("username", user.getUsername());
+            return "admin/rule";
+        }
+        return "admin/login";
+    }
 
 
 }

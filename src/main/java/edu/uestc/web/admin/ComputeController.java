@@ -1,7 +1,6 @@
 package edu.uestc.web.admin;
 
 import com.alibaba.fastjson.JSONObject;
-import edu.uestc.Utils.ColorEntity;
 import edu.uestc.Utils.DataBase;
 import edu.uestc.Utils.EntityColor;
 import edu.uestc.Utils.KafkaProducerr;
@@ -19,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,6 +47,19 @@ public class ComputeController {
         User user = (User)session.getAttribute("user");
         if(user!=null){
             List<Question> questionList = questionService.queryTaoti(area,year,wl);
+            for(Question question : questionList){
+                kafkaProducerr.produce(question.getId(),"latex");
+
+            }
+            for(Question question : questionList){
+                Request r = null;
+                while(r==null){
+                    r = requestService.queryRequest(question.getId(),0,1);
+                }
+                requestService.deleteRequest(question.getId(),0,1);
+                question.setStem(r.getStem());
+                question.setSubStem(r.getSubStem());
+            }
             model.addAttribute("questionList",questionList);
             return "admin/queryResult";
         }
@@ -156,13 +167,52 @@ public class ComputeController {
             catch (Exception e){
                 e.printStackTrace();
             }
-
             model.addAttribute("resultlist",requestList);
             return "admin/testResult";
     }
         return "admin/login";
     }
-
+    @RequestMapping(value="testnlp2")
+    public String testnlp2(@RequestParam String testString,HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            String[] groups = testString.split("#");
+            List<Question> questionList = new ArrayList<>();
+            for(String str : groups){
+                String[] group = str.split("-");
+                if(group.length==3){
+                    questionList.addAll(questionService.queryTaoti(group[0],group[1],group[2]));
+                    for(Question question : questionList){
+                        kafkaProducerr.produce(question.getId(),"entity");
+                    }
+                }
+            }
+            List<EntityColor> colors = new ArrayList<>();
+            try {
+                for(Question question : questionList){
+                    String res = "";
+                    String option = "";
+                    Request r = null;
+                    EntityColor entityColor = new EntityColor();
+                    while(r==null){
+                        r = dataBase.queryRequest(question.getId(),3,1);
+                    }
+                    requestService.deleteRequest(question.getId(),3,1);
+                    NLPResult nlpResult = JSONObject.parseObject(r.getSolveResult(),NLPResult.class);
+                    for(String s : nlpResult.options){
+                        option= option + s+ "  ";
+                    }
+                    colors.add(new EntityColor(nlpResult));
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            model.addAttribute("colors",colors);
+            return "admin/entityResult";
+        }
+        return "admin/login";
+    }
 
     @RequestMapping(value="testsolve")
     public String testsolve(@RequestParam String testString,HttpSession session,Model model){
@@ -233,5 +283,26 @@ public class ComputeController {
         }
         return "admin/login";
     }
+
+    @RequestMapping(value="makeRule")
+    public String makerule(@RequestParam String ruleContext,HttpSession session,Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            return "#";
+        }
+        return "admin/login";
+    }
+
+    @RequestMapping(value="keysearch")
+    public String keysearch(@RequestParam String key, HttpSession session, Model model){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            List<Question> questions = questionService.keySearch(key);
+            model.addAttribute("questionList",questions);
+            return "admin/queryResult";
+        }
+        return "admin/login";
+    }
+
 
 }

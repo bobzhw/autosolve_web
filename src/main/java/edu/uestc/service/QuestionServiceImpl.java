@@ -32,4 +32,10 @@ public class QuestionServiceImpl implements QuestionService {
             return questionRepository.findByAreaAndYearAndCategory(area,year,1);
         return new ArrayList<>();
     }
+
+    @Override
+    public List<Question> keySearch(String key) {
+        String like = "%"+key+"%";
+        return questionRepository.findByStemLike(like);
+    }
 }
