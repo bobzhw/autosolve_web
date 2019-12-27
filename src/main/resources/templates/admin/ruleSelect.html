@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试平台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+
+<nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">测试平台</h2>
+            <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
+            <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
+            <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
+            <a href="#" th:href="@{/admin/test}" class="m-item item m-mobile-hide"><i class=" clone icon"></i>套题测试</a>
+            <a href="#" th:href="@{/admin/rule}" class="m-item item m-mobile-hide"><i class=" info icon"></i>定理制定</a>
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown  item">
+                    <div class="text" th:text="${username}">
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="ui container">
+    <form name="rule" class="ui large form" method="post" action="#" th:action="@{/admin/makeRule}">
+        <div  class="m-container-small m-padded-tb-big">
+            <h3>条件部分</h3>
+            <div class="ui top attached segment">
+                <tr th:each="condition : ${conditions.getTripples()}">
+                    <input type="checkbox" th:text="${condition.getTripple_string()}">
+                    <br>
+                </tr>
+            </div>
+            <h3>结论部分</h3>
+            <div class="ui labeled action input">
+                <div class="ui top attached segment">
+                    <tr th:each="conclusion : ${conclusions.getTripples()}">
+                        <input type="checkbox" th:text="${conclusion.getTripple_string()}">
+                        <i class="ui type selection dropdown">
+                            <input type="hidden" name="typeId">
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div th:each="method : ${methods}" class="item"  th:data-value="${method.methodId}" th:text="${method.methodName}"></div>
+                            </div>
+                        </i>
+                        <i class="field">
+                            <input type="text" style="width:320px;" name="ruleCondition" placeholder="输入参数">
+                        </i>
+                    </tr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
