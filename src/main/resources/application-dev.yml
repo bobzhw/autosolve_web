@@ -8,7 +8,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
 logging:
   level:
     root: info
@@ -16,4 +15,5 @@ logging:
   file: log/web-dev.log
 
 
-
+server:
+  port: 8080

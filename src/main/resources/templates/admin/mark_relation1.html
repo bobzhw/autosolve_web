@@ -35,25 +35,53 @@
 </nav>
 <br>
 <br>
+<div class="m-container-small">
+    <div class="ui container">
+        <h3>待标注的语句：</h3>
+        <h4 th:text="${markText}"></h4>
+    </div>
+</div>
+<br>
+<br>
+<div class="m-container-small">
+    <div class="ui container">
+        <h3>该句子中已识别的关系</h3>
+        <div class="ui container">
+            <tr th:each="relationString : ${relationStringList}">
+                <h4 th:text="${relationString}"></h4>
+            </tr>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="m-container-small">
+    <div class="ui container">
+        <h3>分句</h3>
+        <div class="ui top attached segment">
+            <div th:each="entity : ${entities}">
+                <span>第</span>
+                <span th:text="${entity.index}"></span>
+                <span>分句：</span>
+                <span th:text="${entity.text}"></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
 <div  class="m-container-small">
     <div class="ui container">
-        <form name="rule" class="ui large form" method="post" action="#" th:action="@{/admin/makeRule}">
-            <h3>输入定理描述</h3>
-                <div class="inline fields">
-                    <div class="field">
-                        <input type="text" style="width:800px;" name="conditionContext" placeholder="输入条件描述">
-                    </div>
+        <form name="markSentence" class="ui large form" method="post" action="#" th:action="@{/admin/markSentence}">
+            <div class="inline fields">
+                <div class="field">
+                    <input type="text" name="sentenceId" placeholder="填入要标注的分句">
                 </div>
-                <div class="inline fields">
-                    <div class="field">
-                        <input type="text" style="width:800px;" name="conclusionContext" placeholder="输入结论描述">
-                    </div>
+                <div class="field">
+                    <button type="button" onclick="document.forms['markSentence'].submit()" class="ui mini teal basic submit button">确定</button>
                 </div>
-                <div class="inline fields">
-                    <div class="field">
-                        <button type="button" onclick="document.forms['rule'].submit()" class="ui mini teal basic submit button">提交</button>
-                    </div>
-                </div>
+            </div>
         </form>
     </div>
 </div>

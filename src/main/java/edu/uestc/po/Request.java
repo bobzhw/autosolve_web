@@ -24,6 +24,24 @@ public class Request {
     private String subStem;
     private String solveResult;
     private int over;
+    private String stem2;
+    private String subStem2;
+
+    public String getStem2() {
+        return stem2;
+    }
+
+    public void setStem2(String stem2) {
+        this.stem2 = stem2;
+    }
+
+    public String getSubStem2() {
+        return subStem2;
+    }
+
+    public void setSubStem2(String subStem2) {
+        this.subStem2 = subStem2;
+    }
 
     public int getOver() {
         return over;

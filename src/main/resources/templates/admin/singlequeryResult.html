@@ -15,9 +15,11 @@
         <h2 class="ui teal header item">测试平台</h2>
         <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
         <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
+        <a href="#" th:href="@{/admin/singlequestiontest}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题测试</a>
         <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
         <a href="#" th:href="@{/admin/test}" class="m-item item m-mobile-hide"><i class=" clone icon"></i>套题测试</a>
         <a href="#" th:href="@{/admin/rule}" class="m-item item m-mobile-hide"><i class=" info icon"></i>定理制定</a>
+        <a href="#" th:href="@{/admin/mark}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>关系标注</a>
         <div class="right m-item m-mobile-hide menu">
           <div class="ui dropdown  item">
             <div class="text" th:text="${username}">
@@ -51,18 +53,24 @@
     </div>
   </div>
   </div>
-  <br>
-  <br>
   <div class="ui container">
     <div  class="m-container-small m-padded-tb-big">
+      <h3>一期题目</h3>
       <div class="ui top attached segment">
         <h3 th:text="${question.stem}"></h3>
         <h3 th:text="${question.subStem}"></h3>
       </div>
     </div>
   </div>
-  <br>
-  <br>
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+      <h3>二期题目</h3>
+      <div class="ui top attached segment">
+        <h3 th:text="${question.stem2}"></h3>
+        <h3 th:text="${question.subStem2}"></h3>
+      </div>
+    </div>
+  </div>
   <div  class="m-container-small">
     <div class="ui container">
       <div class="ui top attached segment">
@@ -71,41 +79,53 @@
             <form name="nlp" class="ui large form" method="post" action="#" th:action="@{/admin/nlp}">
               <input  id="nlpquestionId" name="nlpquestionId" type="hidden" th:value="${question.id}" />
               <button type="button" onclick="document.forms['nlp'].submit()" class="ui mini teal basic submit button">
-              NLP
-            </button>
-          </form>
+                一期NLP
+              </button>
+            </form>
           </div>
           <div class="center aligned column">
             <form name="entity" class="ui large form" method="post" action="#" th:action="@{/admin/entity}">
               <input  id="entityid" name="entityid" type="hidden" th:value="${question.id}" />
               <button type="button" onclick="document.forms['entity'].submit()" class="ui mini teal basic submit button">
-                二期实体结果
+                二期NLP结果
               </button>
             </form>
           </div>
           <div class="right aligned column">
-          <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
-            <input  id="solvequestionId" name="solvequestionId" type="hidden" th:value="${question.id}" />
-            <button type="button" onclick="document.forms['solve'].submit()" class="ui mini teal basic submit button">
-              SOLVE
-            </button>
-          </form>
+            <form name="solve" class="ui large form" method="post" action="#" th:action="@{/admin/solve}">
+              <input  id="solvequestionId" name="solvequestionId" type="hidden" th:value="${question.id}" />
+              <button type="button" onclick="document.forms['solve'].submit()" class="ui mini teal basic submit button">
+                一期SOLVE
+              </button>
+            </form>
           </div>
 
         </div>
       </div>
     </div>
   </div>
-  <br>
-  <br>
-
-
-
-
-
-
-
-
+  <div  class="m-container-small">
+    <div class="ui container">
+      <form name="modifyQuestion" class="ui large form" method="post" action="#" th:action="@{/admin/modifyQuestion}">
+        <h3>修改题目题干(stem)</h3>
+        <div class="fields">
+          <input type="text" style="width:850px;" name="stem2" placeholder="修改题目题干(stem)">
+        </div>
+          <input id="qid" name="qid" type="hidden" th:value="${question.id}" />
+        <h3>修改题目小问(subStem)</h3>
+        <div class="fields">
+          <input type="text" style="width:850px;" name="subStem2" placeholder="修改题目小问(subStem)">
+        </div>
+        <h3>修改选择题选项(options)</h3>
+        <div class="fields">
+          <input type="text" style="width:850px;" name="options" placeholder="修改选择题选项(options)">
+        </div>
+        <button type="button" onclick="document.forms['modifyQuestion'].submit()" class="ui mini teal basic submit button">
+          确定修改
+        </button>
+      </form>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>

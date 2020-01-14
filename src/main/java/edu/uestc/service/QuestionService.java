@@ -14,4 +14,8 @@ public interface QuestionService {
 
 
     List<Question> keySearch(String key);
+
+    void modifyQuestion(String questionId,String stem2,String subStem2,String options);
+
+
 }

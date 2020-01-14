@@ -38,4 +38,14 @@ public class QuestionServiceImpl implements QuestionService {
         String like = "%"+key+"%";
         return questionRepository.findByStemLike(like);
     }
+
+    @Override
+    public void modifyQuestion(String questionId, String stem2, String subStem2,String options) {
+       Question question =  questionRepository.findById(questionId);
+       question.setStem2(stem2);
+       question.setOptions(options);
+       question.setSubStem2(subStem2);
+       questionRepository.save(question);
+    }
+
 }

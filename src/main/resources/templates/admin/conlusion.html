@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试平台</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <link rel="stylesheet" href="../../static/css/me.css">
 
 </head>
-<body>
+<body onload="loadParameter()">
 
 <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class="ui inverted secondary stackable menu">
             <h2 class="ui teal header item">测试平台</h2>
-            <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
+            <a href="#" th:href="
+            @{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
             <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
             <a href="#" th:href="@{/admin/singlequestiontest}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题测试</a>
             <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
@@ -35,42 +35,49 @@
     </div>
 </nav>
 
-
 <div class="m-container-small">
     <div class="ui container">
-        <form id="select_form" method="post" th:action="@{/admin/checkChoice}" >
-            <div class="ui secondary segment form">
-                <div class="fields">
-                    <div class="ui container">
+        <form name="selectover_form" method="post" th:action="@{/admin/selectOver}">
+        <div class="ui secondary segment form">
+            <br>
+            <div class="ui container">
+                <h3>结论方法和参数</h3>
+                <tr th:each="conclusion : ${cons}">
+                    <div class="fields">
                         <div class="field">
-                            <h3>条件</h3>
-                            <tr th:each="condition : ${conditions.getTripples()}">
-                                <input type="checkbox" name="conditionids" th:text="${condition.getTripple_string()}"
-                                   th:value="${condition.getId()}" style="font-size: 30px;">
-                                <br>
-                            </tr>
+                            <h3 th:text=" ${conclusion.getId()}+':'+${conclusion.getTripple_string()}">
+                            </h3>
+                        </div>
+                        <div class="field">
+                            <label id="methods" for="methods" class="control-label col-lg-4"></label>
+                            <select id="item"  name="methods" th:value="${selectMethod}"
+                                    placeholder="请选择" style="width: 300px;">
+                                <option value="">请选择</option>
+                                <option th:each="method:${methods}" th:value="${method.getMethodName()}" th:text="${method.getMethodName()}">
+                                </option>
+                            </select>
                         </div>
                     </div>
-                    <br>
-                    <div class="ui container">
-                        <div class="field">
-                            <h3>结论</h3>
-                            <tr th:each="conclusion : ${conclusions.getTripples()}">
-                                <input name="conclusionids" type="checkbox" th:text="${conclusion.getTripple_string()}"
-                                       th:value="${conclusion.getId()}">
-                                <br>
-                            </tr>
-                        </div>
+                    <div class="field">
+                        <label id="parms" for="parms" class="control-label col-lg-4"></label>
+                        <select name="parms" multiple="" class="ui fluid dropdown">
+                            <option value="">请选择</option>
+                            <option th:each="parameter:${parameters}" th:value="${conclusion.getId()}+'-'+${parameter.id}" th:text="${parameter.show()}">
+                        </select>
                     </div>
-                </div>
-                <button class="ui mini right attached teal basic submit button" id="btn" name="btn" type="submit" onclick="chkAll()">选择完毕
-                </button>
+                </tr>
+            </div>
+            <br>
+            <br>
+            <button class="ui mini right attached teal basic submit button" onclick="clicj()" id="btn" name="btn" type="submit">选择完毕
+            </button>
             </div>
         </form>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
 <script>
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
@@ -81,17 +88,10 @@
     });
 </script>
 <script>
-    function chkAll(obj) {
-        var ischecked = obj.checked;
-        $("input:checkbox[child]").each(function () {
-            $(this).prop('checked', ischecked).change();//可以了
-        });
+    function clicj(obj) {
+        alert("提交成功，返回规则制定页面");
     }
 </script>
-<script>
-function clicj(obj) {
-    alert("提交成功，返回规则制定页面");
-}
-</script>
+
 </body>
 </html>

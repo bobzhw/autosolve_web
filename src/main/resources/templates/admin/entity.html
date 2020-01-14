@@ -10,14 +10,17 @@
 <body>
 
   <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-    <div class="ui container">
+    <div class="ui
+     container">
       <div class="ui inverted secondary stackable menu">
         <h2 class="ui teal header item">测试平台</h2>
         <a href="#" th:href="@{/admin/index}" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
         <a href="#" th:href="@{/admin/singlequery}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题搜索</a>
+        <a href="#" th:href="@{/admin/singlequestiontest}" class="m-item item m-mobile-hide"><i class=" idea icon"></i>单题测试</a>
         <a href="#" th:href="@{/admin/query}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>套题搜索</a>
         <a href="#" th:href="@{/admin/test}" class="m-item item m-mobile-hide"><i class=" clone icon"></i>套题测试</a>
         <a href="#" th:href="@{/admin/rule}" class="m-item item m-mobile-hide"><i class=" info icon"></i>定理制定</a>
+        <a href="#" th:href="@{/admin/mark}" class="m-item item m-mobile-hide"><i class=" tags icon"></i>关系标注</a>
         <div class="right m-item m-mobile-hide menu">
           <div class="ui dropdown  item">
             <div class="text" th:text="${username}">
@@ -41,7 +44,7 @@
       <div class="ui top attached segment">
         <div class="ui middle aligned two column grid">
           <div class="column">
-            <h3 class="ui teal header">entity结果</h3>
+            <h3 class="ui teal header">二期实体结果</h3>
           </div>
           <div class="right aligned column">
             <p class="ui orange header m-inline-block m-text-thin" th:text="${question.id}"></p>
@@ -62,17 +65,45 @@
         <span th:text="${options}"></span>
         <br>
         <br>
-        <p style="white-space: pre-line" th:text="${res}">  </p>
+
+      </div>
+    </div>
+  </div>
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+      <!--header-->
+      <div class="ui top attached segment">
+        <div class="ui middle aligned two column grid">
+          <div class="column">
+            <h3 class="ui teal header">二期关系结果</h3>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <br>
   <br>
-
-
-
-
-
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+      <div class="ui top attached segment">
+        <tr th:each="relation : ${relations}">
+          <h4 th:text="${relation.toString()}"></h4>
+        </tr>
+        <tr th:each="subRelation : ${subRelations}">
+          <h4 th:text="${subRelation.toString()}"></h4>
+        </tr>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="ui container">
+    <div  class="m-container-small m-padded-tb-big">
+      <div class="ui top attached segment">
+        <h3 style="white-space: pre-line" th:text="${res}">  </h3>
+      </div>
+    </div>
+  </div>
 
 
 

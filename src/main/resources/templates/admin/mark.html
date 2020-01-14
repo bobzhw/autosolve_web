@@ -37,23 +37,30 @@
 <br>
 <div  class="m-container-small">
     <div class="ui container">
-        <form name="rule" class="ui large form" method="post" action="#" th:action="@{/admin/makeRule}">
-            <h3>输入定理描述</h3>
-                <div class="inline fields">
-                    <div class="field">
-                        <input type="text" style="width:800px;" name="conditionContext" placeholder="输入条件描述">
-                    </div>
+        <form name="mark" class="ui large form" method="post" action="#" th:action="@{/admin/relationmark}">
+            <h3>输入待标注数学文本</h3>
+            <div class="field">
+                <input type="text" style="width:800px;" name="markText" placeholder="输入stem">
+            </div>
+            <h3>输入subStems,小问之间用#%#分割</h3>
+            <div class="field">
+                <input type="text" style="width:800px;" name="subStems" placeholder="输入subStems,小问之间用#%#分割">
+            </div>
+            <h3>输入options,选项之间用#%#分割</h3>
+            <div class="field">
+                <input type="text" style="width:800px;" name="options" placeholder="输入options,选项之间用#%#分割">
+            </div>
+                <div class="field">
+                    <label id="answer" for="answer" class="control-label col-lg-4"></label>
+                    <select id="item"  name="answer" placeholder="请选择" style="width: 130px;">
+                        <option value="1">题目关系</option>
+                        <option value="2">解答过程</option>
+                    </select>
                 </div>
-                <div class="inline fields">
-                    <div class="field">
-                        <input type="text" style="width:800px;" name="conclusionContext" placeholder="输入结论描述">
-                    </div>
+                <div class="field">
+                    <button type="button" onclick="document.forms['mark'].submit()" class="ui mini teal basic submit button">提交</button>
                 </div>
-                <div class="inline fields">
-                    <div class="field">
-                        <button type="button" onclick="document.forms['rule'].submit()" class="ui mini teal basic submit button">提交</button>
-                    </div>
-                </div>
+
         </form>
     </div>
 </div>

@@ -11,13 +11,18 @@ public class NLPResult {
     public String commonText;
     public String fakeText;
     public List<Entity> entities;
-    public List<SubStemRelation> stemRelations;
+    public List<SubStemRelation> subStemRelations;
+    public List<Relation> stemRelations;
     public List<String> options;
-    public List<Relation> solutions;
-
+    public List<Relation> solutionRelations;
     static class Properties{
         public String propertyName;
         public String getPropertyType;
+
+        @Override
+        public String toString() {
+            return propertyName+"【"+getPropertyType+"】";
+        }
     }
     static class Relation{
         public String entity1;
@@ -27,7 +32,17 @@ public class NLPResult {
         public String relationString;
         public List<Properties> properties;
         public  int isConlusion;
-
+        @Override
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(entity1 + "【"+type1+"】  "+entity2+"【"+type2+"】  "
+                    +"【"+relationString+"】  ");
+            for(Properties property : properties){
+                sb.append(property);
+            }
+            sb.append("isConclusion"+isConlusion);
+            return sb.toString();
+        }
     }
     public static class Entity{
         public String name;
@@ -43,15 +58,24 @@ public class NLPResult {
         public String isQuestion;
         public List<_SubStemRelation> relations;
 
+        @Override
+        public String toString() {
+            return relations.toString();
+        }
 
         static class _SubStemRelation{
             public String entity1;
-            public  String entity2;
+            public String entity2;
             public String type1;
             public String type2;
             public String relationString;
             public List<Properties> properties;
             public String asking;
+            @Override
+            public String toString() {
+                return entity1 + "【"+type1+"】  "+entity2+"【"+type2+"】  "
+                        +"【"+relationString+"】";
+            }
         }
     }
 
@@ -109,7 +133,7 @@ public class NLPResult {
                 "  \"subStemRelations\": [], \n" +
                 "  \"type\": 1\n" +
                 "}";
-        NLPResult nlpresult = JSONObject.parseObject(json,NLPResult.class);
+        NLPResult nlpresult = JSONObject.parseObject(json, NLPResult.class);
         for(Entity entity : nlpresult.entities){
             System.out.println(entity.name+" "+ entity.types);
         }

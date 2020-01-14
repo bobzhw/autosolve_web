@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import edu.uestc.Utils.DataBase;
 import edu.uestc.Utils.EntityColor;
 import edu.uestc.Utils.KafkaProducerr;
+import edu.uestc.auto.reasoning.NlpString2;
+import edu.uestc.auto.reasoning.PostParam;
 import edu.uestc.po.NLPResult;
 import edu.uestc.po.Question;
 import edu.uestc.po.Request;
@@ -39,13 +41,16 @@ public class ComputeController {
     private QuestionService questionService;
 
     @PostMapping("/querySearch")
-    public String querySearch(@RequestParam String area,
-                              @RequestParam String year,
-                              @RequestParam String wl,
+    public String querySearch(@RequestParam(required = false) String area,
+                              @RequestParam(required = false) String year,
+                              @RequestParam(required = false) String wl,
                               HttpSession session,
                               Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
+            if(area.equals("") || year.equals("") || wl.equals("")){
+                return "admin/query";
+            }
             List<Question> questionList = questionService.queryTaoti(area,year,wl);
             for(Question question : questionList){
                 kafkaProducerr.produce(question.getId(),"latex");
@@ -68,18 +73,39 @@ public class ComputeController {
     }
 
     @PostMapping("/search")
-    public String search(@RequestParam String id,HttpSession session,Model model){
+    public String search(@RequestParam(required = false) String id,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
-            Question question = questionService.queryByQuestionId(id);
-            kafkaProducerr.produce(id,"latex");
-            Request r = null;
-            while(r==null){
-                r = requestService.queryRequest(id,0,1);
+            if(id.equals("")){
+                return "admin/singlequery";
             }
-            requestService.deleteRequest(id,0,1);
-            question.setStem(r.getStem());
-            question.setSubStem(r.getSubStem());
+            Question question = questionService.queryByQuestionId(id);
+//            kafkaProducerr.produce(id,"latex");
+//            Request r = null;
+//            while(r==null){
+//                r = requestService.queryRequest(id,0,1);
+//            }
+//            requestService.deleteRequest(id,0,1);
+//            if(r.getStem2()==null){
+//                r.setStem2("");
+//            }
+//            if(r.getSubStem2()==null){
+//                r.setSubStem2("");
+//            }
+//            out.println(r.getStem2());
+//            out.println(r.getSubStem2());
+//            question.setStem2(r.getStem2());
+//            question.setSubStem2(r.getSubStem2());
+//            question.setStem(r.getStem());
+//            question.setSubStem(r.getSubStem());
+            if(question.getStem2()==null){
+                question.setStem2("");
+            }
+            if(question.getSubStem2()==null){
+                question.setStem2("");
+            }
+            question.setStem(question.getStem());
+            question.setSubStem(question.getSubStem());
             model.addAttribute("question",question);
             return "admin/singlequeryResult";
         }
@@ -139,9 +165,12 @@ public class ComputeController {
     }
 
     @RequestMapping(value="testnlp")
-    public String testnlp(@RequestParam String testString,HttpSession session,Model model){
+    public String testnlp(@RequestParam(required = false) String testString,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
+            if(testString.equals("")){
+                return "admin/test";
+            }
             String[] groups = testString.split("#");
             List<Question> questionList = new ArrayList<>();
             for(String str : groups){
@@ -173,9 +202,12 @@ public class ComputeController {
         return "admin/login";
     }
     @RequestMapping(value="testnlp2")
-    public String testnlp2(@RequestParam String testString,HttpSession session,Model model){
+    public String testnlp2(@RequestParam(required = false) String testString,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
+            if(testString.equals("")){
+                return "admin/test";
+            }
             String[] groups = testString.split("#");
             List<Question> questionList = new ArrayList<>();
             for(String str : groups){
@@ -215,9 +247,12 @@ public class ComputeController {
     }
 
     @RequestMapping(value="testsolve")
-    public String testsolve(@RequestParam String testString,HttpSession session,Model model){
+    public String testsolve(@RequestParam(required = false) String testString,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
+            if(testString.equals("")){
+                return "admin/test";
+            }
             String[] groups = testString.split("#");
             List<Question> questionList = new ArrayList<>();
             for(String str : groups){
@@ -271,7 +306,9 @@ public class ComputeController {
                     options= options+s+"  ";
                 }
                 entityColor = new EntityColor(nlpResult);
-                res = nlpResult.toString();
+                res = r.getSolveResult();
+                model.addAttribute("relations",nlpResult.stemRelations);
+                model.addAttribute("subRelations",nlpResult.subStemRelations);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -284,19 +321,34 @@ public class ComputeController {
         return "admin/login";
     }
 
-    @RequestMapping(value="makeRule")
-    public String makerule(@RequestParam String ruleContext,HttpSession session,Model model){
+    @RequestMapping(value="singleQuestionEntity")
+    public String singleQuestionEntity(@RequestParam String questionStem,HttpSession session,Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
-            return "#";
+            PostParam postParam = new PostParam(new PostParam.Content("3",questionStem,null,null));
+            postParam.setChinese_type("1");
+            NlpString2 nlpString = new NlpString2();
+            String r = nlpString.getNlpJson(postParam);
+            EntityColor entityColor = new EntityColor();
+            NLPResult nlpResult = JSONObject.parseObject(r,NLPResult.class);
+            entityColor = new EntityColor(nlpResult);
+            String res = nlpResult.toString();
+            model.addAttribute("textColors",entityColor.getTextColors());
+            model.addAttribute("res",r);
+            model.addAttribute("relations",nlpResult.stemRelations);
+            return "admin/singleEntity";
         }
         return "admin/login";
     }
 
+
     @RequestMapping(value="keysearch")
-    public String keysearch(@RequestParam String key, HttpSession session, Model model){
+    public String keysearch(@RequestParam(required = false) String key, HttpSession session, Model model){
         User user = (User)session.getAttribute("user");
         if(user!=null){
+            if(key.equals("")){
+                return "admin/singlequery";
+            }
             List<Question> questions = questionService.keySearch(key);
             model.addAttribute("questionList",questions);
             return "admin/queryResult";
@@ -304,5 +356,16 @@ public class ComputeController {
         return "admin/login";
     }
 
+    @RequestMapping(value="modifyQuestion")
+    public String modifyQuestion(@RequestParam String stem2,@RequestParam(required = false) String subStem2,
+                                 @RequestParam(required = false) String options,
+                                 HttpSession session,Model model,@RequestParam String qid){
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            questionService.modifyQuestion(qid,stem2,subStem2,options);
+            return "admin/singlequery";
+        }
+        return "admin/login";
+    }
 
 }
