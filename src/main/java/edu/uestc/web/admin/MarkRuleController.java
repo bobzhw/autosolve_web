@@ -36,9 +36,12 @@ public class MarkRuleController {
     private QuestionService questionService;
 //       private static SocketPool socketPool = SocketPool.getInstance("121.48.165.136",8899);
 //       private static SocketPool socketPool = SocketPool.getInstance("127.0.0.1",8899);
-//
-    private static SocketPool socketPool = SocketPool.getInstance("192.168.1.249", 8899);
-    private SocketInfo socketInfo = socketPool.getSocketInfo();
+    private String ip="121.48.165.136";
+//    private String ip="192.168.1.249";
+    //private String ip="127.0.0.1";
+    private int port = 8899;
+//    private static SocketPool socketPool = SocketPool.getInstance("192.168.1.249", 8899);
+//    private SocketInfo socketInfo = socketPool.getSocketInfo();
     @RequestMapping(value = "makeRule")
 
     public String makerule(@RequestParam(required = false)
@@ -51,6 +54,7 @@ public class MarkRuleController {
             if(conditionContext.equals("") || conclusionContext.equals("")){
                 return "admin/rule";
             }
+            SocketInfo socketInfo = new SocketInfo(ip,port);
             RequestText requestText =  new RequestText(conditionContext,conclusionContext);
             socketInfo.write("1"+JSON.toJSONString(requestText));
             String res = socketInfo.read();
@@ -126,6 +130,7 @@ public class MarkRuleController {
             res.addAll(condiString);
             res.addAll(consString);
             ruleData.setResult(res);
+            SocketInfo socketInfo = new SocketInfo(ip,port);
             socketInfo.write("2"+JSON.toJSONString(ruleData));
             return "admin/rule";
         } else {
@@ -183,6 +188,7 @@ public class MarkRuleController {
                 res.add(tripple);
             }
             ruleData.setResult(res);
+            SocketInfo socketInfo = new SocketInfo(ip,port);
             socketInfo.write("2"+JSON.toJSONString(ruleData));
 //            session.removeAttribute("conditions");
 //            session.removeAttribute("conclusions");
